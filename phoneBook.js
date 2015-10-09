@@ -41,6 +41,7 @@ function isCorrectEmail(email) {
    Поиск ведется по всем полям.
 */
 module.exports.find = function find(query) {
+    query = query ? query : '';
     var foundResults = findUserAndIndex(query);
     foundResults.forEach(function(userAndIndex, count, foundResults) {
         var user = userAndIndex[0];
@@ -62,22 +63,23 @@ function findUserAndIndex(query) {
 
 function getPhoneToShow(phone) {
     var newPhone = '';
-    for (var i = phone.length - 1; i >= 0; i--) {
+    var phoneLen = phone.length;
+    for (var i = phoneLen - 1; i >= 0; i--) {
         newPhone += phone[i];
         switch(i) {
-            case phone.length - 3:
-            case phone.length - 4:
+            case phoneLen - 3:
+            case phoneLen - 4:
                 newPhone += '-';
                 break;
-            case phone.length - 7:
+            case phoneLen - 7:
                 newPhone += ' )';
                 break;
-            case phone.length - 10:
+            case phoneLen - 10:
                 newPhone += '( ';
                 break;
         }
     };
-    if (phone.length == 10) {
+    if (phoneLen == 10) {
         newPhone += '7';
     };
     newPhone += '+';
@@ -88,6 +90,7 @@ function getPhoneToShow(phone) {
    Функция удаления записи в телефонной книге.
 */
 module.exports.remove = function remove(query) {
+    query = query ? query : '';
     var foundResults = findUserAndIndex(query);
     foundResults.forEach(function(userAndIndex, count, foundResults) {
         phoneBook.splice(userAndIndex[1], 1);
@@ -126,8 +129,9 @@ module.exports.showTable = function showTable() {
             getOutputString(getPhoneToShow(user.phone), len) +
             getOutputString(user.email, len) + '│');
     });
-    for (var i = 1; i < output.length * 2 + 2; i++) {
-        if (i == 1 || i == 3 || i == output.length * 2 + 1) {
+    var outputLen = output.length;
+    for (var i = 1; i < outputLen * 2 + 2; i++) {
+        if (i == 1 || i == 3 || i == outputLen * 2 + 1) {
             console.log(getLines(i, len));
         }
         else if (i % 2 == 0) {
