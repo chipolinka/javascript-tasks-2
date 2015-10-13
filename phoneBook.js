@@ -10,7 +10,7 @@ module.exports.add = function add(name, phone, email) {
     if (!(isCorrectPhone(phone) && isCorrectEmail(email))) {
         return false;
     }
-    phone = getClearPhone(phone);
+    // phone = getClearPhone(phone);
     var user = {
         name: name,
         phone: phone,
@@ -32,7 +32,7 @@ function isCorrectPhone(phone) {
 }
 
 function isCorrectEmail(email) {
-    var re = /^\w+[@]{1}[-(\w|а-я|А-Я)]+[\.\w|а-я|А-Я]+$/i;
+    var re = /^\w+[@]{1}[-(\w|а-я|А-Я)]+(\.[\w|а-я|А-Я]+)+$/i;
     return re.test(email);
 }
 
@@ -62,6 +62,8 @@ function findUserAndIndex(query) {
 }
 
 function getPhoneToShow(phone) {
+    var re = /\d+/g;
+    phone = phone.match(re).join('');
     var newPhone = '';
     var phoneLen = phone.length;
     for (var i = phoneLen - 1; i >= 0; i--) {
@@ -101,7 +103,7 @@ module.exports.remove = function remove(query) {
 /*
    Функция импорта записей из файла (задача со звёздочкой!).
 */
-module.exports.export = function importFromCsv(filename) {
+module.exports.importFromCsv = function importFromCsv(filename) {
     var data = require('fs').readFileSync(filename, 'utf-8');
     var lines = data.split('\n');
     var countOfUsers = 0;
