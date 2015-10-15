@@ -10,7 +10,6 @@ module.exports.add = function add(name, phone, email) {
     if (!(isCorrectPhone(phone) && isCorrectEmail(email))) {
         return false;
     }
-    // phone = getClearPhone(phone);
     var user = {
         name: name,
         phone: phone,
@@ -32,7 +31,7 @@ function isCorrectPhone(phone) {
 }
 
 function isCorrectEmail(email) {
-    var re = /^\w+[@]{1}[-(\w|а-я|А-Я)]+(\.[\w|а-я|А-Я]+)+$/i;
+    var re = /^[\w\d-_]+[@]{1}[-\wа-яА-Я]+(\.[\wа-яА-Я]+)+$/i;
     return re.test(email);
 }
 
@@ -123,11 +122,11 @@ module.exports.importFromCsv = function importFromCsv(filename) {
 module.exports.showTable = function showTable() {
     var output = [];
     var len = 25;
-    output.push(getOutputString('Имя', len) + 
+    output.push(getOutputString('Имя', len) +
             getOutputString('Телефон', len) +
             getOutputString('E-mail', len) + '│');
     phoneBook.forEach(function(user, count, phoneBook) {
-        output.push(getOutputString(user.name, len) + 
+        output.push(getOutputString(user.name, len) +
             getOutputString(getPhoneToShow(user.phone), len) +
             getOutputString(user.email, len) + '│');
     });
@@ -140,7 +139,7 @@ module.exports.showTable = function showTable() {
             console.log(output[i / 2 - 1]);
         }
     };
-    
+
 };
 
 function getOutputString(str, len) {
